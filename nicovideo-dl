@@ -44,6 +44,9 @@ import urllib2
 import cgi
 
 # Global constants
+const_version = '2008.10.08'
+const_project_url = 'http://sourceforge.jp/projects/nicovideo-dl'
+
 const_1k = 1024
 const_initial_block_size = 10 * const_1k
 const_epsilon = 0.0001
@@ -79,8 +82,7 @@ def request_create(url, extra_headers, post_data=None):
 	retval = urllib2.Request(url)
 	if post_data is not None:
 		retval.add_data(post_data)
-	# Try to mimic Firefox, at least a little bit
-	retval.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11')
+	retval.add_header('User-Agent', 'nicovideo-dl/%s (%s)' % (const_version, const_project_url))
 	retval.add_header('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
 	retval.add_header('Accept', 'text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5')
 	retval.add_header('Accept-Language', 'en-us,en;q=0.5')
@@ -215,7 +217,7 @@ def calc_speed(start, now, bytes):
 
 # Create the command line options parser and parse command line
 cmdl_usage = 'usage: %prog [options] video_url'
-cmdl_version = '2008.10.08'
+cmdl_version = const_version
 cmdl_parser = optparse.OptionParser(usage=cmdl_usage, version=cmdl_version, conflict_handler='resolve')
 cmdl_parser.add_option('-h', '--help', action='help', help='print this help text and exit')
 cmdl_parser.add_option('-v', '--version', action='version', help='print program version and exit')
