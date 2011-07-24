@@ -44,7 +44,7 @@ import urllib2
 import cgi
 
 # Global constants
-const_version = '2008.10.08'
+const_version = '2011.02.08'
 const_project_url = 'http://sourceforge.jp/projects/nicovideo-dl'
 
 const_1k = 1024
