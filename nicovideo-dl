@@ -468,7 +468,8 @@ for video_url_cmdl in cmdl_args:
 		sys.stderr.write('Warning: video file name does not end in %s\n' % video_extension)
 	
 	# Download and save comment
-	download_comment(cmdl_opts, video_url, video_filename, video_url_id, video_info_data)
+	if cmdl_opts.get_comment:
+		download_comment(cmdl_opts, video_url, video_filename, video_url_id, video_info_data)
 	
 	# Retrieve video data
 	try:
