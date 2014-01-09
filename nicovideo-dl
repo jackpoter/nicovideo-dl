@@ -159,8 +159,8 @@ def download_step(return_data_flag, step_title, step_error, url, post_data=None)
 			return data, response
 		return None
 
-	except (urllib.error.URLError, ValueError, http.client.HTTPException, TypeError, socket.error):
-		cond_print('failed.\n')
+	except (urllib.error.URLError, ValueError, http.client.HTTPException, TypeError, socket.error) as e:
+		cond_print('failed. (%s)\n' % e)
 		error_advice_exit(step_error)
 
 	except KeyboardInterrupt:
@@ -546,8 +546,8 @@ for video_url_cmdl in cmdl_args:
 		cond_print('done.\n')
 		cond_print('Video data saved to %s\n' % video_filename)
 	
-	except (urllib.error.URLError, ValueError, http.client.HTTPException, TypeError, socket.error):
-		cond_print('failed.\n')
+	except (urllib.error.URLError, ValueError, http.client.HTTPException, TypeError, socket.error) as e:
+		cond_print('failed. (%s)\n' % e)
 		error_advice_exit('unable to download video data')
 	
 	except KeyboardInterrupt:
