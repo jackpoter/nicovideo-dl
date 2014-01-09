@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # Copyright (c) 2009 Keiichiro Nagano
 # Copyright (c) 2009 Kimura Youichi
@@ -28,7 +27,7 @@
 # holders shall not be used in advertising or otherwise to promote the
 # sale, use or other dealings in this Software without prior written
 # authorization.
-#
+ 
 import getpass
 import http.client
 import math
@@ -111,7 +110,7 @@ def cond_print(str):
 
 # Title string normalization
 def title_string_norm(title):
-	title_s = str(title.decode('utf-8', 'ignore'))
+	title_s = title.decode('utf-8', 'ignore')
 	for title_p in ['‐ニコニコ動画(SP1)',
 			'‐ニコニコ動画(夏)',
 			'‐ニコニコ動画(秋)', # as of Oct 2008
@@ -296,7 +295,7 @@ def download_comment(cmdl_opts, video_url, video_filename, video_url_id, video_i
 
 	try:
 		f = codecs.open(outfile, 'w', 'utf-8')
-	except (IOError, OSError):
+	except OSError:
 		sys.exit('Error: unable to open "%s" for writing.' % outfile)
 
 	if cmdl_opts.comment_in_xml:
@@ -371,7 +370,7 @@ if cmdl_opts.use_netrc:
 			sys.exit('Error: no authenticators for machine nicovideo.')
 		netrc_username = info[0]
 		netrc_password = info[2]
-	except IOError:
+	except OSError:
 		sys.exit('Error: unable to read .netrc file.')
 	except netrc.NetrcParseError:
 		sys.exit('Error: unable to parse .netrc file.')
@@ -489,7 +488,7 @@ for video_url_cmdl in cmdl_args:
 		
 		try:
 			video_file = open(video_filename, 'wb')
-		except (IOError, OSError):
+		except OSError:
 			sys.exit('Error: unable to open "%s" for writing.' % video_filename)
 		try:
 			video_len = int(video_data.info()['Content-length'])
