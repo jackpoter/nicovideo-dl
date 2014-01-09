@@ -68,14 +68,14 @@ const_comment_request_str = '<thread thread="%s" version="20061206" res_from="-1
 
 # SSL error workaround (ugly, don't know how to do it better)
 class HTTPSHandler(urllib.request.AbstractHTTPHandler):
-    def __init__(self, debuglevel=0, context=ssl.SSLContext(ssl.PROTOCOL_TLSv1), check_hostname=None):
-        urllib.request.AbstractHTTPHandler.__init__(self, debuglevel)
-        self._context = context
-        self._check_hostname = check_hostname
-    def https_open(self, req):
-        return self.do_open(http.client.HTTPSConnection, req,
-            context=self._context, check_hostname=self._check_hostname)
-    https_request = urllib.request.AbstractHTTPHandler.do_request_
+	def __init__(self, debuglevel=0, context=ssl.SSLContext(ssl.PROTOCOL_TLSv1), check_hostname=None):
+		urllib.request.AbstractHTTPHandler.__init__(self, debuglevel)
+		self._context = context
+		self._check_hostname = check_hostname
+	def https_open(self, req):
+		return self.do_open(http.client.HTTPSConnection, req,
+			context=self._context, check_hostname=self._check_hostname)
+	https_request = urllib.request.AbstractHTTPHandler.do_request_
 
 urllib.request.HTTPSHandler = HTTPSHandler
 
