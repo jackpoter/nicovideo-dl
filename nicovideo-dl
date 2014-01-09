@@ -43,6 +43,7 @@ import urllib.request, urllib.error, urllib.parse
 import cgi
 import codecs
 import xml.parsers.expat
+import ssl
 
 # Global constants
 const_version = '2011.02.08'
@@ -64,6 +65,19 @@ const_video_type_re = re.compile(r'^http://.*\.nicovideo\.jp/smile\?(.*?)=.*')
 
 const_comment_getthreadkey_url_str = 'http://flapi.nicovideo.jp/api/getthreadkey?thread=%s'
 const_comment_request_str = '<thread thread="%s" version="20061206" res_from="-1000" user_id="%s"%s/>'
+
+# SSL error workaround (ugly, don't know how to do it better)
+class HTTPSHandler(urllib.request.AbstractHTTPHandler):
+    def __init__(self, debuglevel=0, context=ssl.SSLContext(ssl.PROTOCOL_TLSv1), check_hostname=None):
+        urllib.request.AbstractHTTPHandler.__init__(self, debuglevel)
+        self._context = context
+        self._check_hostname = check_hostname
+    def https_open(self, req):
+        return self.do_open(http.client.HTTPSConnection, req,
+            context=self._context, check_hostname=self._check_hostname)
+    https_request = urllib.request.AbstractHTTPHandler.do_request_
+
+urllib.request.HTTPSHandler = HTTPSHandler
 
 # Print error message, followed by standard advice information, and then exit
 def error_advice_exit(error_text):
@@ -135,7 +149,10 @@ def title_string_touch(title):
 def download_step(return_data_flag, step_title, step_error, url, post_data=None):
 	try:
 		cond_print('%s... ' % step_title)
-		response = perform_request(url, data=post_data)
+		if post_data is None:
+			response = perform_request(url, data=post_data)
+		else:
+			response = perform_request(url, data=post_data.encode('utf-8'))
 		data = response.read()
 		cond_print('done.\n')
 		if return_data_flag:
@@ -432,7 +449,7 @@ for video_url_cmdl in cmdl_args:
 	video_url_info = const_video_url_info_str % video_url_id
 	video_info_data, response = download_step(True, 'Retrieving info data', 'unable to retrieve video webpage', video_url_info)
 	cond_print('Extracting URL "url" parameter... ')
-	video_url_url_param = cgi.parse_qs(video_info_data)
+	video_url_url_param = cgi.parse_qs(video_info_data.decode('utf-8'))
 	if ("url" in video_url_url_param):
 		video_url_url_param=video_url_url_param["url"][0]
 	else:
