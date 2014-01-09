@@ -40,7 +40,6 @@ import string
 import sys
 import time
 import urllib.request, urllib.error, urllib.parse
-import cgi
 import codecs
 import xml.parsers.expat
 import ssl
@@ -251,7 +250,7 @@ def download_comment(cmdl_opts, video_url, video_filename, video_url_id, video_i
 	def get_thread_info():
 		url = const_comment_getthreadkey_url_str % video_url_id
 		data = post('thread key', url)
-		info = cgi.parse_qs(data)
+		info = urllib.parse.parse_qs(data)
 		return extract_param(info, "threadkey"), extract_param(info, "force_184")
 
 	def make_request(thread_id, user_id):
@@ -294,7 +293,7 @@ def download_comment(cmdl_opts, video_url, video_filename, video_url_id, video_i
 			f.write(comment)
 			f.write('\n')
 
-	info = cgi.parse_qs(video_info_data)
+	info = urllib.parse.parse_qs(video_info_data)
 	thread_id = extract_param(info, "thread_id")
 	user_id = extract_param(info, "user_id")
 	msg_url = extract_param(info, "ms")
@@ -449,7 +448,7 @@ for video_url_cmdl in cmdl_args:
 	video_url_info = const_video_url_info_str % video_url_id
 	video_info_data, response = download_step(True, 'Retrieving info data', 'unable to retrieve video webpage', video_url_info)
 	cond_print('Extracting URL "url" parameter... ')
-	video_url_url_param = cgi.parse_qs(video_info_data.decode('utf-8'))
+	video_url_url_param = urllib.parse.parse_qs(video_info_data.decode('utf-8'))
 	if ("url" in video_url_url_param):
 		video_url_url_param=video_url_url_param["url"][0]
 	else:
