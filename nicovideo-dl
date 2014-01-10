@@ -40,7 +40,6 @@ import string
 import sys
 import time
 import urllib.request, urllib.error, urllib.parse
-import codecs
 import xml.parsers.expat
 import ssl
 
@@ -310,7 +309,7 @@ def download_comment(cmdl_opts, video_url, video_filename, video_url_id, video_i
 			outfile = '%s.txt' % video_filename
 
 	try:
-		f = codecs.open(outfile, 'w', 'utf-8')
+		f = open(outfile, 'w')
 	except OSError:
 		sys.exit('Error: unable to open "%s" for writing.' % outfile)
 
