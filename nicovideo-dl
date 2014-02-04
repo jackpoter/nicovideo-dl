@@ -65,6 +65,7 @@ const_comment_getthreadkey_url_str = 'http://flapi.nicovideo.jp/api/getthreadkey
 const_comment_request_str = '<thread thread="%s" version="20061206" res_from="-1000" user_id="%s"%s/>'
 
 # SSL error workaround (ugly, don't know how to do it better)
+# Related: http://bugs.python.org/issue11220
 class HTTPSHandler(urllib.request.AbstractHTTPHandler):
 	def __init__(self, debuglevel=0, context=ssl.SSLContext(ssl.PROTOCOL_TLSv1), check_hostname=None):
 		urllib.request.AbstractHTTPHandler.__init__(self, debuglevel)
