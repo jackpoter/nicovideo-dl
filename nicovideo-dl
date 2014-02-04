@@ -44,7 +44,7 @@ import xml.parsers.expat
 import ssl
 
 # Global constants
-const_version = '2011.02.08'
+const_version = '2014.02.04'
 const_project_url = 'http://sourceforge.jp/projects/nicovideo-dl'
 
 const_1k = 1024
