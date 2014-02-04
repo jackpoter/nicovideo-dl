@@ -122,7 +122,6 @@ def cond_print(str):
 
 # Title string normalization
 def title_string_norm(title):
-	title_s = title.decode('utf-8', 'ignore')
 	for title_p in ['‐ニコニコ動画(SP1)',
 			'‐ニコニコ動画(夏)',
 			'‐ニコニコ動画(秋)', # as of Oct 2008
@@ -131,13 +130,12 @@ def title_string_norm(title):
 			'‐ニコニコ動画(9)', # as of 29 Oct 2009
 			'‐ ニコニコ動画(原宿)', # as of 29 Oct 2010
 			]:
-		if (title_s.endswith(title_p)):
-			title_s = title_s[:title_s.rfind(title_p)]
+		if (title.endswith(title_p)):
+			title = title[:title.rfind(title_p)]
 			break
-	title_s = title_s.replace(os.sep, '%')
-	title_s = '_'.join(title_s.split())
-	title_s = title_s.encode('utf-8','ignore')
-	return title_s
+	title = title.replace(os.sep, '%')
+	title = '_'.join(title.split())
+	return title
 
 # Title string minimal transformation
 def title_string_touch(title):
@@ -168,7 +166,7 @@ def download_step(return_data_flag, step_title, step_error, url, post_data=None)
 def extract_step(step_title, step_error, regexp, data):
 	try:
 		cond_print('%s... ' % step_title)
-		match = regexp.search(data)
+		match = regexp.search(data.decode('utf-8'))
 		
 		if match is None:
 			cond_print('failed.\n')
