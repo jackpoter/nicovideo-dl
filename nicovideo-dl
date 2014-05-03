@@ -98,7 +98,7 @@ def error_advice_exit(error_text):
 def request_create(url, extra_headers, post_data=None):
 	retval = urllib.request.Request(url)
 	if post_data is not None:
-		retval.add_data(post_data)
+		retval.data = post_data
 	retval.add_header('User-Agent', 'nicovideo-dl/%s (%s)' % (const_version, const_project_url))
 	retval.add_header('Accept-Charset', 'ISO-8859-1,utf-8;q=0.7,*;q=0.7')
 	retval.add_header('Accept', 'text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5')
