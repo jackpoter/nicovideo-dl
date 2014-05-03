@@ -386,8 +386,8 @@ if cmdl_opts.use_netrc:
 		netrc_password = info[2]
 	except OSError:
 		sys.exit('Error: unable to read .netrc file.')
-	except netrc.NetrcParseError:
-		sys.exit('Error: unable to parse .netrc file.')
+	except netrc.NetrcParseError as e:
+		sys.exit(e)
 
 if cmdl_opts.password is not None:
 	account_username = cmdl_opts.username
